@@ -1,11 +1,10 @@
-package com.ltf.financecontrol.controller;
+package com.ltf.financecontrol.modules.auth;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
-import com.ltf.financecontrol.dto.LoginDto;
 import com.ltf.financecontrol.dto.LoggedUserDto;
 import com.ltf.financecontrol.exceptions.InvalidCredentialsException;
-import com.ltf.financecontrol.model.User;
-import com.ltf.financecontrol.repository.UserRepository;
+import com.ltf.financecontrol.modules.user.model.entities.User;
+import com.ltf.financecontrol.modules.user.repository.UserRepository;
 
 import jakarta.validation.Valid;
 
@@ -17,20 +16,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("login")
-public class LoginController {
+public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
 
     @PostMapping
     public ResponseEntity<?> login(
-            @RequestBody @Valid LoginDto loginDto
+            @RequestBody @Valid CredentialsDto credentialsDto
     ) throws InvalidCredentialsException {
         LoggedUserDto loggedUserDto = null;
         List<User> users = this.userRepository.findAll();
 
         for (User user : users) {
-            if (user.getEmail().equals(loginDto.getEmail()) && user.getPassword().equals(loginDto.getPassword())) {
+            if (user.getEmail().equals(credentialsDto.getEmail()) && user.getPassword().equals(credentialsDto.getPassword())) {
                 loggedUserDto = new LoggedUserDto();
                 loggedUserDto.setId(user.getId());
                 loggedUserDto.setUsername(user.getUsername());

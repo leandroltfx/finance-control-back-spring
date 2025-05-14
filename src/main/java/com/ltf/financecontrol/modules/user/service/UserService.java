@@ -1,8 +1,8 @@
-package com.ltf.financecontrol.services;
+package com.ltf.financecontrol.modules.user.service;
 
-import com.ltf.financecontrol.dto.UserDto;
-import com.ltf.financecontrol.model.User;
-import com.ltf.financecontrol.repository.UserRepository;
+import com.ltf.financecontrol.modules.user.model.dto.UserDto;
+import com.ltf.financecontrol.modules.user.model.entities.User;
+import com.ltf.financecontrol.modules.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

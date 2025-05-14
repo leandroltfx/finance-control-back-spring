@@ -1,13 +1,15 @@
-package com.ltf.financecontrol.controller;
+package com.ltf.financecontrol.modules.user.controller;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
-import com.ltf.financecontrol.dto.UserDto;
-import com.ltf.financecontrol.model.User;
-import com.ltf.financecontrol.repository.UserRepository;
 
-import com.ltf.financecontrol.services.UserService;
+import com.ltf.financecontrol.modules.user.model.dto.UserDto;
+import com.ltf.financecontrol.modules.user.model.entities.User;
+import com.ltf.financecontrol.modules.user.service.UserService;
+import com.ltf.financecontrol.modules.user.repository.UserRepository;
+
 import jakarta.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserController(
-            UserRepository userRepository,
-            UserService userService
-    ) {
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<?> registerUser(
