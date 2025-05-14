@@ -30,7 +30,15 @@ public class UserController {
     public ResponseEntity<?> registerUser(
             @RequestBody @Valid UserDto userDto
     ) {
-        User user = this.userService.createUser(userDto);
+
+        User userEntity = User
+                .builder()
+                .username(userDto.getUsername())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .build();
+
+        User user = this.userService.registerUser(userEntity);
         HttpResponseDto httpResponseDto = new HttpResponseDto();
         httpResponseDto.addMessage("Usuário cadastrado com sucesso!");
         httpResponseDto.setData(user);

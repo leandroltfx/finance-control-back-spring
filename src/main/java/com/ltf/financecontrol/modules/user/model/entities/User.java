@@ -3,23 +3,26 @@ package com.ltf.financecontrol.modules.user.model.entities;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     @Column(name = "name")
     @NotNull
@@ -34,7 +37,7 @@ public class User {
     private String password;
 
     @Column(name = "createdAt")
-    @NotNull
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
 }

@@ -2,6 +2,7 @@ package com.ltf.financecontrol.exceptions;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
 
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,6 +32,20 @@ public class GlobalExceptionHandler {
             httpResponseDto.addMessage(fieldError.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(httpResponseDto);
+    }
+
+    @ExceptionHandler(UserFoundException.class)
+    public ResponseEntity<?> handleUserFoundException(UserFoundException ex) {
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.addMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(httpResponseDto);
+    }
+
+    @ExceptionHandler(DataAccessResourceFailureException.class)
+    public ResponseEntity<?> handleDataAccessResourceFailureException(DataAccessResourceFailureException ex) {
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.addMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(httpResponseDto);
     }
 
 }

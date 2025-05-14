@@ -32,7 +32,7 @@ public class AuthController {
         for (User user : users) {
             if (user.getEmail().equals(credentialsDto.getEmail()) && user.getPassword().equals(credentialsDto.getPassword())) {
                 loggedUserDto = new LoggedUserDto();
-                loggedUserDto.setId(user.getId());
+                loggedUserDto.setId(user.getId().toString());
                 loggedUserDto.setUsername(user.getUsername());
                 loggedUserDto.setEmail(user.getEmail());
             }
