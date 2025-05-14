@@ -1,8 +1,9 @@
-package com.ltf.financecontrol.modules.auth;
+package com.ltf.financecontrol.modules.auth.controller;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
 import com.ltf.financecontrol.dto.LoggedUserDto;
 import com.ltf.financecontrol.exceptions.InvalidCredentialsException;
+import com.ltf.financecontrol.modules.auth.model.dto.CredentialsDto;
 import com.ltf.financecontrol.modules.user.model.entities.User;
 import com.ltf.financecontrol.modules.user.repository.UserRepository;
 
