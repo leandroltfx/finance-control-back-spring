@@ -12,3 +12,5 @@ security:
   token:
     secret: BRCOMCONTROLFINANCE2025
     issuer: financecontrol
+token:
+  sonar: sqp_5c4ec2d21766ab854a936480e16461ddd4bd47fc
