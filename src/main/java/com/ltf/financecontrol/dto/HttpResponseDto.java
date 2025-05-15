@@ -1,13 +1,12 @@
 package com.ltf.financecontrol.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class HttpResponseDto {
 
     private List<String> listMessage = new ArrayList<>();
