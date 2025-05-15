@@ -8,3 +8,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+security:
+  token:
+    secret: BRCOMCONTROLFINANCE2025
+    issuer: financecontrol

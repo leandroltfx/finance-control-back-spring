@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<?> handleInvalidCredentials(InvalidCredentialsException ex) {
         HttpResponseDto httpResponseDto = new HttpResponseDto();
-        httpResponseDto.addMessage("Email e/ou senha inválidos.");
+        httpResponseDto.addMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(httpResponseDto);
     }
 

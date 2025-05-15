@@ -1,51 +1,33 @@
 package com.ltf.financecontrol.modules.auth.controller;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
-import com.ltf.financecontrol.dto.LoggedUserDto;
-import com.ltf.financecontrol.exceptions.InvalidCredentialsException;
+import com.ltf.financecontrol.modules.auth.model.dto.CredentialsResponseDto;
+import com.ltf.financecontrol.modules.auth.service.AuthService;
 import com.ltf.financecontrol.modules.auth.model.dto.CredentialsDto;
-import com.ltf.financecontrol.modules.user.model.entities.User;
-import com.ltf.financecontrol.modules.user.repository.UserRepository;
 
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("login")
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthService authService;
 
     @PostMapping
     public ResponseEntity<?> login(
             @RequestBody @Valid CredentialsDto credentialsDto
-    ) throws InvalidCredentialsException {
-        LoggedUserDto loggedUserDto = null;
-        List<User> users = this.userRepository.findAll();
-
-        for (User user : users) {
-            if (user.getEmail().equals(credentialsDto.getEmail()) && user.getPassword().equals(credentialsDto.getPassword())) {
-                loggedUserDto = new LoggedUserDto();
-                loggedUserDto.setId(user.getId().toString());
-                loggedUserDto.setUsername(user.getUsername());
-                loggedUserDto.setEmail(user.getEmail());
-            }
-        }
-        if (loggedUserDto == null) {
-            throw new InvalidCredentialsException("Email e/ou senha inválidos");
-        }
-
-        //"Login efetuado com sucesso!"
+    ) {
+        CredentialsResponseDto credentialsResponseDto = this.authService.authenticated(credentialsDto);
         HttpResponseDto httpResponseDto = new HttpResponseDto();
         httpResponseDto.addMessage("Login efetuado com sucesso!");
-        httpResponseDto.setData(loggedUserDto);
-        return ResponseEntity.status(200).body(httpResponseDto);
+        httpResponseDto.setData(credentialsResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
     }
 
 }
