@@ -2,7 +2,6 @@ package com.ltf.financecontrol.modules.account.controller;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
 import com.ltf.financecontrol.modules.account.model.dto.AccountDto;
-import com.ltf.financecontrol.modules.account.model.entities.AccountEntity;
 import com.ltf.financecontrol.modules.account.service.AccountService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,17 +11,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -52,6 +54,16 @@ public class AccountController {
         HttpResponseDto httpResponseDto = new HttpResponseDto();
         httpResponseDto.addMessage("Conta bancária registrada com sucesso!");
         httpResponseDto.setData(accountDtoCreated);
+        return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<HttpResponseDto> getAccounts(
+            @PageableDefault(page = 0, size = 5, direction = Sort.Direction.ASC, sort = "name") Pageable pageable
+    ) {
+        List<AccountDto> listAccounts = this.accountService.getAccounts(pageable);
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.setData(listAccounts);
         return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
     }
 

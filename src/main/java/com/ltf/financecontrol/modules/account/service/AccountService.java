@@ -6,9 +6,12 @@ import com.ltf.financecontrol.modules.account.model.dto.AccountDto;
 import com.ltf.financecontrol.modules.account.repository.AccountRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -35,6 +38,15 @@ public class AccountService {
                         this.accountAdapter.parseToEntity(accountDto, userId)
                 )
         );
+    }
+
+    public List<AccountDto> getAccounts(
+            Pageable pageable
+    ) {
+        return this.accountRepository.findAll(pageable)
+                .stream()
+                .map(accountEntity -> this.accountAdapter.parseToDto(accountEntity))
+                .collect(Collectors.toList());
     }
 
 }
