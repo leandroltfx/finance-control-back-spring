@@ -7,6 +7,12 @@ import com.ltf.financecontrol.modules.user.model.entities.User;
 import com.ltf.financecontrol.modules.user.service.UserService;
 import com.ltf.financecontrol.modules.user.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +33,16 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> registerUser(
+    @Tag(name = "Usuário")
+    @Operation(summary = "Cadastro de usuário", description = "Cadastrando um usuário no sistema")
+    @ApiResponses(
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema =
+                        @Schema(implementation = HttpResponseDto.class)
+                    )
+            })
+    )
+    public ResponseEntity<HttpResponseDto> registerUser(
             @RequestBody @Valid UserDto userDto
     ) {
 
