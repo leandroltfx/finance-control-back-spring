@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,6 +63,19 @@ public class AccountController {
             @PageableDefault(page = 0, size = 5, direction = Sort.Direction.ASC, sort = "name") Pageable pageable
     ) {
         List<AccountDto> listAccounts = this.accountService.getAccounts(pageable);
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.setData(listAccounts);
+        return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
+    }
+
+    @GetMapping("filter")
+    public ResponseEntity<HttpResponseDto> filterAccounts(
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") String description,
+            @RequestParam(required = false, defaultValue = "0") BigDecimal amount,
+            @PageableDefault(page = 0, size = 5, direction = Sort.Direction.ASC, sort = "name") Pageable pageable
+    ) {
+        List<AccountDto> listAccounts = this.accountService.filterAccounts(pageable, name, description, amount);
         HttpResponseDto httpResponseDto = new HttpResponseDto();
         httpResponseDto.setData(listAccounts);
         return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
