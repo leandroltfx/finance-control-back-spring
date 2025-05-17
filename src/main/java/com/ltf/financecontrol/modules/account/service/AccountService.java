@@ -6,6 +6,7 @@ import com.ltf.financecontrol.modules.account.model.dto.AccountDto;
 import com.ltf.financecontrol.modules.account.repository.AccountRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class AccountService {
         );
     }
 
+    @Cacheable(value = "accountsCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
     public List<AccountDto> getAccounts(
             Pageable pageable
     ) {
