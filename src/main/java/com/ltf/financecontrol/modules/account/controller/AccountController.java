@@ -2,6 +2,7 @@ package com.ltf.financecontrol.modules.account.controller;
 
 import com.ltf.financecontrol.dto.HttpResponseDto;
 import com.ltf.financecontrol.modules.account.model.dto.AccountDto;
+import com.ltf.financecontrol.modules.account.model.dto.AccountPatchDto;
 import com.ltf.financecontrol.modules.account.service.AccountService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -88,6 +89,19 @@ public class AccountController {
     ) {
         UUID userId = UUID.fromString(httpServletRequest.getAttribute("user_id").toString());
         AccountDto accountDtoUpdated = this.accountService.updateAccount(accountDto, userId);
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.addMessage("Conta bancária alterada com sucesso!");
+        httpResponseDto.setData(accountDtoUpdated);
+        return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
+    }
+
+    @PatchMapping()
+    public ResponseEntity<HttpResponseDto> updateAccount(
+            @RequestBody @Valid AccountPatchDto accountPatchDto,
+            HttpServletRequest httpServletRequest
+    ) {
+        UUID userId = UUID.fromString(httpServletRequest.getAttribute("user_id").toString());
+        AccountDto accountDtoUpdated = this.accountService.updatePartialAccount(accountPatchDto, userId);
         HttpResponseDto httpResponseDto = new HttpResponseDto();
         httpResponseDto.addMessage("Conta bancária alterada com sucesso!");
         httpResponseDto.setData(accountDtoUpdated);

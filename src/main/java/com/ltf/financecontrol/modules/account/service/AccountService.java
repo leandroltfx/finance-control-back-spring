@@ -4,6 +4,7 @@ import com.ltf.financecontrol.exceptions.UserFoundException;
 import com.ltf.financecontrol.exceptions.UserNotFoundException;
 import com.ltf.financecontrol.modules.account.adapter.AccountAdapter;
 import com.ltf.financecontrol.modules.account.model.dto.AccountDto;
+import com.ltf.financecontrol.modules.account.model.dto.AccountPatchDto;
 import com.ltf.financecontrol.modules.account.model.entities.AccountEntity;
 import com.ltf.financecontrol.modules.account.repository.AccountRepository;
 
@@ -93,6 +94,35 @@ public class AccountService {
                         this.accountAdapter.parseToEntity(accountDto, userId)
                 )
         );
+    }
+
+    public AccountDto updatePartialAccount(
+            AccountPatchDto accountPatchDto,
+            UUID userId
+    ) {
+        if (accountPatchDto.getId() == null) {
+            throw new UserNotFoundException("Não foi possível identificar a conta bancária");
+        }
+
+        AccountEntity accountEntity = this.accountRepository.findById(accountPatchDto.getId())
+                .orElseThrow(() -> new UserNotFoundException("Conta inexistente"));
+
+        if (!accountEntity.getUserId().equals(userId)) {
+            throw new UserNotFoundException("Você está tentando alterar a conta bancária de outro usuário");
+        }
+
+        if (accountPatchDto.getName() != null) {
+            accountEntity.setName(accountPatchDto.getName());
+        }
+        if (accountPatchDto.getDescription() != null) {
+            accountEntity.setDescription(accountPatchDto.getDescription());
+        }
+        if (accountPatchDto.getAmount() != null) {
+            accountEntity.setAmount(accountPatchDto.getAmount());
+        }
+
+        AccountEntity updatedAccount = this.accountRepository.save(accountEntity);
+        return this.accountAdapter.parseToDto(updatedAccount);
     }
 
 }
