@@ -12,6 +12,7 @@ public class AccountAdapter {
     public AccountDto parseToDto(AccountEntity accountEntity) {
         return AccountDto
                 .builder()
+                .id(accountEntity.getId())
                 .name(accountEntity.getName())
                 .description(accountEntity.getDescription())
                 .amount(accountEntity.getAmount())
@@ -21,6 +22,7 @@ public class AccountAdapter {
     public AccountEntity parseToEntity(AccountDto accountDto, UUID userid) {
         return AccountEntity
                 .builder()
+                .id(accountDto.getId())
                 .name(accountDto.getName())
                 .description(accountDto.getDescription())
                 .amount(accountDto.getAmount())

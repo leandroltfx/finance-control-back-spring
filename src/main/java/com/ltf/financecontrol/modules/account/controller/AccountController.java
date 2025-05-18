@@ -81,4 +81,17 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
     }
 
+    @PutMapping()
+    public ResponseEntity<HttpResponseDto> updateAccount(
+        @RequestBody @Valid AccountDto accountDto,
+        HttpServletRequest httpServletRequest
+    ) {
+        UUID userId = UUID.fromString(httpServletRequest.getAttribute("user_id").toString());
+        AccountDto accountDtoUpdated = this.accountService.updateAccount(accountDto, userId);
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.addMessage("Conta bancária alterada com sucesso!");
+        httpResponseDto.setData(accountDtoUpdated);
+        return ResponseEntity.status(HttpStatus.OK).body(httpResponseDto);
+    }
+
 }

@@ -11,12 +11,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDto {
+
+    private UUID id;
 
     @NotBlank(message = "Informe o nome da conta")
     @Schema(example = "Itaú", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
 // Intercepta exceções lançadas dentro de métodos anotados com @RequestMapping, @GetMapping, @PostMapping, etc.
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidCredentialsException.class)
@@ -46,6 +46,13 @@ public class GlobalExceptionHandler {
         HttpResponseDto httpResponseDto = new HttpResponseDto();
         httpResponseDto.addMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(httpResponseDto);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex) {
+        HttpResponseDto httpResponseDto = new HttpResponseDto();
+        httpResponseDto.addMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(httpResponseDto);
     }
 
 }
