@@ -9,11 +9,11 @@ import java.util.List;
 @Data
 public class HttpResponseDto {
 
-    private List<String> listMessage = new ArrayList<>();
+    private List<String> messages = new ArrayList<>();
     private Object data;
 
     public void addMessage(String message) {
-        this.listMessage.add(message);
+        this.messages.add(message);
     }
 
 }
