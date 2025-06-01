@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: finance-control-back-spring
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finance_control_database_postgres
+    username: admin
+    password: admin
