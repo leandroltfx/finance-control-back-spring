@@ -1,7 +1,7 @@
 package br.com.ltfx.finance_control_back_spring.adapter.in.api;
 
+import br.com.ltfx.finance_control_back_spring.adapter.in.api.dto.HttpResponseDto;
 import br.com.ltfx.finance_control_back_spring.adapter.in.api.dto.UserRequestDto;
-import br.com.ltfx.finance_control_back_spring.adapter.in.api.dto.UserResponseDto;
 import br.com.ltfx.finance_control_back_spring.adapter.in.api.mapper.UserMapper;
 import br.com.ltfx.finance_control_back_spring.application.port.in.CreateUserUseCase;
 
@@ -23,10 +23,10 @@ public class UserController {
     private CreateUserUseCase createUserUseCase;
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid UserRequestDto request) {
+    public ResponseEntity<HttpResponseDto> createUser(@RequestBody @Valid UserRequestDto request) {
         User user = UserMapper.toDomain(request);
         User createdUser = createUserUseCase.createUser(user);
-        UserResponseDto response = UserMapper.toResponse(createdUser);
+        HttpResponseDto response = UserMapper.toResponse("Usuário cadastrado com sucesso!", createdUser);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
