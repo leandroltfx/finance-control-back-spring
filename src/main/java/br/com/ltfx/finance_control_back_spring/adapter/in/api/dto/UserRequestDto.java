@@ -1,10 +1,9 @@
 package br.com.ltfx.finance_control_back_spring.adapter.in.api.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
 
 public record UserRequestDto(
         @NotBlank(message = "Informe o nome de usuário")

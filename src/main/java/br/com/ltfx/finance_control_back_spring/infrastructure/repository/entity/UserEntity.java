@@ -1,8 +1,9 @@
 package br.com.ltfx.finance_control_back_spring.infrastructure.repository.entity;
 
+import lombok.Data;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
 import java.util.UUID;
 
