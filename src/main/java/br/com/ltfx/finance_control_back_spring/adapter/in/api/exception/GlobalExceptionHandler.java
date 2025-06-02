@@ -33,6 +33,17 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(UserFoundException.class)
+    public ResponseEntity<HttpResponseDto> handleUserFoundException(UserFoundException ex) {
+        return new ResponseEntity<>(
+                new HttpResponseDto<>(
+                        ex.getMessage(),
+                        null
+                ),
+                HttpStatus.UNPROCESSABLE_ENTITY
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<HttpResponseDto> handleGeneralException(Exception ex) {
         return new ResponseEntity<>(
