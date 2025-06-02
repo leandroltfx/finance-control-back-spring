@@ -5,14 +5,18 @@ import br.com.ltfx.finance_control_back_spring.application.port.out.UserReposito
 import br.com.ltfx.finance_control_back_spring.application.port.in.CreateUserUseCase;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateUserService implements CreateUserUseCase {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public CreateUserService(
+            UserRepository userRepository
+    ) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     @Transactional

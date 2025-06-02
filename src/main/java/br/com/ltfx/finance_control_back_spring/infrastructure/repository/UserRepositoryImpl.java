@@ -5,13 +5,17 @@ import br.com.ltfx.finance_control_back_spring.application.port.out.UserReposito
 import br.com.ltfx.finance_control_back_spring.infrastructure.repository.entity.UserEntity;
 
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class UserRepositoryImpl implements UserRepository {
 
-    @Autowired
-    private SpringDataUserRepository springDataUserRepository;
+    private final SpringDataUserRepository springDataUserRepository;
+
+    public UserRepositoryImpl(
+            SpringDataUserRepository springDataUserRepository
+    ) {
+        this.springDataUserRepository = springDataUserRepository;
+    }
 
     @Override
     public User save(User user) {
