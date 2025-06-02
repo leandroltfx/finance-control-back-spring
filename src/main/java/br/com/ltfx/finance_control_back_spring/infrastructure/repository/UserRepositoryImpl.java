@@ -2,22 +2,32 @@ package br.com.ltfx.finance_control_back_spring.infrastructure.repository;
 
 import br.com.ltfx.finance_control_back_spring.domain.model.User;
 import br.com.ltfx.finance_control_back_spring.application.port.out.UserRepository;
+import br.com.ltfx.finance_control_back_spring.adapter.in.api.exception.UserFoundException;
 import br.com.ltfx.finance_control_back_spring.infrastructure.repository.entity.UserEntity;
 
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class UserRepositoryImpl implements UserRepository {
 
-    @Autowired
-    private SpringDataUserRepository springDataUserRepository;
+    private final SpringDataUserRepository springDataUserRepository;
+
+    public UserRepositoryImpl(
+            SpringDataUserRepository springDataUserRepository
+    ) {
+        this.springDataUserRepository = springDataUserRepository;
+    }
 
     @Override
     public User save(User user) {
-        UserEntity entity = toEntity(user);
-        UserEntity saved = springDataUserRepository.save(entity);
-        return toDomain(saved);
+
+        springDataUserRepository
+                .findByUsernameOrEmail(user.getUsername(), user.getEmail())
+                .ifPresent(userEntity -> {
+                    throw new UserFoundException();
+                });
+
+        return toDomain(springDataUserRepository.save(toEntity(user)));
     }
 
     // Conversores
